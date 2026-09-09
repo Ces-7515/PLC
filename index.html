@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Palworld TCG Counter</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#141923">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="パルTCG">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app" class="app-container theme-dark">
+    <!-- ヘッダー -->
+    <header class="app-header">
+      <div class="logo">
+        <img src="logo.png" alt="PALWORLD OFFICIAL CARD GAME" class="app-logo-img">
+      </div>
+      <div class="header-controls">
+        <button id="mode-toggle-btn" class="btn-icon" title="対戦モード切り替え">
+          <span class="icon">⚔️</span> <span id="mode-text">2P対戦</span>
+        </button>
+        <button id="reset-all-btn" class="btn-icon danger" title="全リセット">
+          <span class="icon">🔄</span> リセット
+        </button>
+      </div>
+    </header>
+
+    <!-- 1人表示モード -->
+    <main id="single-player-view" class="view-container active">
+      <!-- ライフセクション -->
+      <section class="card life-card">
+        <div class="card-header">
+          <h2><span class="icon">❤️</span> プレイヤーライフ</h2>
+          <span class="initial-badge">初期値: 10</span>
+        </div>
+        <div class="life-display-container">
+          <button id="p1-life-minus" class="btn-count minus" aria-label="ライフ減">-1</button>
+          <div class="life-value-wrapper">
+            <span id="p1-life-val" class="life-value">10</span>
+            <span class="life-unit">HP</span>
+          </div>
+          <button id="p1-life-plus" class="btn-count plus" aria-label="ライフ増">+1</button>
+        </div>
+        <div class="quick-adjust">
+          <button class="btn-sub danger" onclick="adjustLife('p1', -1)">-1</button>
+          <button class="btn-sub danger" onclick="adjustLife('p1', -2)">-2</button>
+          <button class="btn-sub danger" onclick="adjustLife('p1', -3)">-3</button>
+          <button class="btn-sub danger" onclick="adjustLife('p1', -4)">-4</button>
+        </div>
+      </section>
+
+      <!-- 素材・食材セクション -->
+      <section class="resources-grid">
+        <!-- 食材 -->
+        <div class="card resource-card food-theme">
+          <div class="card-header">
+            <h3><img src="icon_food.png" alt="食材" class="res-title-icon"> 食材</h3>
+          </div>
+          <div class="resource-counter">
+            <button id="p1-food-minus" class="btn-count sm minus">-</button>
+            <span id="p1-food-val" class="resource-value">0</span>
+            <button id="p1-food-plus" class="btn-count sm plus">+</button>
+          </div>
+          <div class="resource-quick">
+            <button class="btn-tiny" onclick="adjustResource('p1', 'food', 1)">+1</button>
+            <button class="btn-tiny" onclick="adjustResource('p1', 'food', 3)">+3</button>
+          </div>
+        </div>
+
+        <!-- 素材 -->
+        <div class="card resource-card material-theme">
+          <div class="card-header">
+            <h3><img src="icon_material.png" alt="素材" class="res-title-icon"> 素材</h3>
+          </div>
+          <div class="resource-counter">
+            <button id="p1-mat-minus" class="btn-count sm minus">-</button>
+            <span id="p1-mat-val" class="resource-value">0</span>
+            <button id="p1-mat-plus" class="btn-count sm plus">+</button>
+          </div>
+          <div class="resource-quick">
+            <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 1)">+1</button>
+            <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 3)">+3</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 対戦ログ/メモ -->
+      <section class="card log-card">
+        <div class="card-header">
+          <h3><span class="icon">📜</span> ログ</h3>
+          <button id="clear-log-btn" class="btn-tiny">消去</button>
+        </div>
+        <ul id="action-log" class="log-list">
+          <li class="log-item default">対戦が開始されました</li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- 2人対戦表示モード (対向表示対応) -->
+    <main id="two-player-view" class="view-container">
+      <!-- Player 2 (相手・反転表示可能) -->
+      <div class="player-panel p2-panel">
+        <div class="panel-header">
+          <span class="player-label">PLAYER 2 (相手)</span>
+          <button class="btn-tiny" id="p2-flip-btn">🔄 180°回転</button>
+        </div>
+        <div class="panel-content" id="p2-content">
+          <div class="p2-main-display single-box">
+            <!-- P2 ライフ -->
+            <div class="mini-card p2-life-box">
+              <span class="mini-title">❤️ ライフ</span>
+              <div class="mini-counter">
+                <button class="btn-count sm minus" onclick="adjustLife('p2', -1)">-</button>
+                <span id="p2-life-val" class="mini-val">10</span>
+                <button class="btn-count sm plus" onclick="adjustLife('p2', 1)">+</button>
+              </div>
+            </div>
+          </div>
+          <!-- P2 素材・食材 -->
+          <div class="p2-sub-display">
+            <div class="mini-sub-item"><img src="icon_food.png" class="mini-res-icon"> 食材: <span id="p2-food-val">0</span> 
+              <button class="btn-micro" onclick="adjustResource('p2', 'food', -1)">-</button>
+              <button class="btn-micro" onclick="adjustResource('p2', 'food', 1)">+</button>
+            </div>
+            <div class="mini-sub-item"><img src="icon_material.png" class="mini-res-icon"> 素材: <span id="p2-mat-val">0</span>
+              <button class="btn-micro" onclick="adjustResource('p2', 'mat', -1)">-</button>
+              <button class="btn-micro" onclick="adjustResource('p2', 'mat', 1)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="vs-divider">
+        <span>VS</span>
+      </div>
+
+      <!-- Player 1 (自分) -->
+      <div class="player-panel p1-panel">
+        <div class="panel-header">
+          <span class="player-label">PLAYER 1 (自分)</span>
+        </div>
+        <div class="panel-content">
+          <div class="p2-main-display single-box">
+            <!-- P1 ライフ -->
+            <div class="mini-card p1-life-box">
+              <span class="mini-title">❤️ ライフ</span>
+              <div class="mini-counter">
+                <button class="btn-count sm minus" onclick="adjustLife('p1', -1)">-</button>
+                <span id="p1-life-val-2p" class="mini-val">10</span>
+                <button class="btn-count sm plus" onclick="adjustLife('p1', 1)">+</button>
+              </div>
+            </div>
+          </div>
+          <!-- P1 素材・食材 -->
+          <div class="p2-sub-display">
+            <div class="mini-sub-item"><img src="icon_food.png" class="mini-res-icon"> 食材: <span id="p1-food-val-2p">0</span> 
+              <button class="btn-micro" onclick="adjustResource('p1', 'food', -1)">-</button>
+              <button class="btn-micro" onclick="adjustResource('p1', 'food', 1)">+</button>
+            </div>
+            <div class="mini-sub-item"><img src="icon_material.png" class="mini-res-icon"> 素材: <span id="p1-mat-val-2p">0</span>
+              <button class="btn-micro" onclick="adjustResource('p1', 'mat', -1)">-</button>
+              <button class="btn-micro" onclick="adjustResource('p1', 'mat', 1)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- フッター -->
+    <footer class="app-footer">
+      <p>PALWORLD TCG Counter App &bull; Designed for Palworld Card Game Players</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
