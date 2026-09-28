@@ -5,6 +5,7 @@
 // アプリの状態
 const defaultState = {
   mode: 'single', // 'single' | 'two'
+  resTab: 'both', // 'both' | 'food' | 'mat'
   p2Flipped: false,
   p1: {
     life: 10,
@@ -174,6 +175,14 @@ window.adjustLife = function(player, delta) {
   }
 };
 
+// 素材・食材表示タブ切り替え
+window.setResourceTab = function(tab) {
+  state.resTab = tab;
+  vibrate(20);
+  saveState();
+  render();
+};
+
 // 素材・食材調整
 window.adjustResource = function(player, type, delta) {
   const p = state[player];
@@ -240,9 +249,43 @@ function render() {
     p1LifeEl.classList.remove('low');
   }
 
+  // 素材・食材表示タブのアクティブ化切替
+  const currentTab = state.resTab || 'both';
+  ['both', 'food', 'mat'].forEach(t => {
+    const btn = document.getElementById(`tab-btn-${t}`);
+    if (btn) {
+      if (t === currentTab) btn.classList.add('active');
+      else btn.classList.remove('active');
+    }
+  });
+
+  // モード別エリア表示切替
+  const gridBoth = document.getElementById('res-grid-both');
+  const focusFood = document.getElementById('res-focus-food');
+  const focusMat = document.getElementById('res-focus-mat');
+
+  if (gridBoth && focusFood && focusMat) {
+    gridBoth.classList.remove('active');
+    focusFood.classList.remove('active');
+    focusMat.classList.remove('active');
+
+    if (currentTab === 'food') {
+      focusFood.classList.add('active');
+    } else if (currentTab === 'mat') {
+      focusMat.classList.add('active');
+    } else {
+      gridBoth.classList.add('active');
+    }
+  }
+
   // 1P 素材・食材
   document.getElementById('p1-food-val').textContent = state.p1.food;
   document.getElementById('p1-mat-val').textContent = state.p1.mat;
+
+  const foodLg = document.getElementById('p1-food-val-lg');
+  const matLg = document.getElementById('p1-mat-val-lg');
+  if (foodLg) foodLg.textContent = state.p1.food;
+  if (matLg) matLg.textContent = state.p1.mat;
 
   // 2P モード用要素の更新
   document.getElementById('p1-life-val-2p').textContent = state.p1.life;

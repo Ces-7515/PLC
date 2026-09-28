@@ -1,7 +1,7 @@
 {
-  "name": "パルワールド TCG カウンター",
-  "short_name": "パルTCG",
-  "description": "パルワールド オフィシャルカードゲーム用 ライフ＆素材・食材カウンター",
+  "name": "PLC",
+  "short_name": "PLC",
+  "description": "PLC - Palworld Life & Resource Counter",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",

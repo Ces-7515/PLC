@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Palworld TCG Counter</title>
+  <title>PLC</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#141923">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="パルTCG">
+  <meta name="apple-mobile-web-app-title" content="PLC">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,36 +57,82 @@
       </section>
 
       <!-- 素材・食材セクション -->
-      <section class="resources-grid">
-        <!-- 食材 -->
-        <div class="card resource-card food-theme">
-          <div class="card-header">
-            <h3><img src="icon_food.png" alt="食材" class="res-title-icon"> 食材</h3>
+      <section class="resources-section">
+        <!-- 表示切替タブ -->
+        <div class="res-tab-bar">
+          <button id="tab-btn-both" class="res-tab-btn active" onclick="setResourceTab('both')">両方表示</button>
+          <button id="tab-btn-food" class="res-tab-btn" onclick="setResourceTab('food')"><img src="icon_food.png" class="mini-res-icon"> 食材</button>
+          <button id="tab-btn-mat" class="res-tab-btn" onclick="setResourceTab('mat')"><img src="icon_material.png" class="mini-res-icon"> 素材</button>
+        </div>
+
+        <!-- 2列表示 (デフォルト: both) -->
+        <div id="res-grid-both" class="resources-grid res-view-mode active">
+          <!-- 食材 -->
+          <div class="card resource-card food-theme">
+            <div class="card-header">
+              <h3><img src="icon_food.png" alt="食材" class="res-title-icon"> 食材</h3>
+            </div>
+            <div class="resource-counter">
+              <button id="p1-food-minus" class="btn-count sm minus">-</button>
+              <span id="p1-food-val" class="resource-value">0</span>
+              <button id="p1-food-plus" class="btn-count sm plus">+</button>
+            </div>
+            <div class="resource-quick">
+              <button class="btn-tiny" onclick="adjustResource('p1', 'food', 2)">+2</button>
+              <button class="btn-tiny" onclick="adjustResource('p1', 'food', 3)">+3</button>
+            </div>
           </div>
-          <div class="resource-counter">
-            <button id="p1-food-minus" class="btn-count sm minus">-</button>
-            <span id="p1-food-val" class="resource-value">0</span>
-            <button id="p1-food-plus" class="btn-count sm plus">+</button>
-          </div>
-          <div class="resource-quick">
-            <button class="btn-tiny" onclick="adjustResource('p1', 'food', 1)">+1</button>
-            <button class="btn-tiny" onclick="adjustResource('p1', 'food', 3)">+3</button>
+
+          <!-- 素材 -->
+          <div class="card resource-card material-theme">
+            <div class="card-header">
+              <h3><img src="icon_material.png" alt="素材" class="res-title-icon"> 素材</h3>
+            </div>
+            <div class="resource-counter">
+              <button id="p1-mat-minus" class="btn-count sm minus">-</button>
+              <span id="p1-mat-val" class="resource-value">0</span>
+              <button id="p1-mat-plus" class="btn-count sm plus">+</button>
+            </div>
+            <div class="resource-quick">
+              <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 2)">+2</button>
+              <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 3)">+3</button>
+            </div>
           </div>
         </div>
 
-        <!-- 素材 -->
-        <div class="card resource-card material-theme">
+        <!-- 食材 特大フォーカス表示 (food) -->
+        <div id="res-focus-food" class="card resource-focus-card food-theme res-view-mode">
           <div class="card-header">
-            <h3><img src="icon_material.png" alt="素材" class="res-title-icon"> 素材</h3>
+            <h2><img src="icon_food.png" alt="食材" class="res-title-icon-lg"> 食材</h2>
           </div>
-          <div class="resource-counter">
-            <button id="p1-mat-minus" class="btn-count sm minus">-</button>
-            <span id="p1-mat-val" class="resource-value">0</span>
-            <button id="p1-mat-plus" class="btn-count sm plus">+</button>
+          <div class="life-display-container">
+            <button class="btn-count minus" onclick="adjustResource('p1', 'food', -1)">-1</button>
+            <div class="life-value-wrapper">
+              <span id="p1-food-val-lg" class="life-value">0</span>
+            </div>
+            <button class="btn-count plus" onclick="adjustResource('p1', 'food', 1)">+1</button>
           </div>
-          <div class="resource-quick">
-            <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 1)">+1</button>
-            <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 3)">+3</button>
+          <div class="quick-adjust res-focus-adjust">
+            <button class="btn-sub primary" onclick="adjustResource('p1', 'food', 2)">+2</button>
+            <button class="btn-sub primary" onclick="adjustResource('p1', 'food', 3)">+3</button>
+          </div>
+        </div>
+
+        <!-- 素材 特大フォーカス表示 (mat) -->
+        <div id="res-focus-mat" class="card resource-focus-card material-theme res-view-mode">
+          <div class="card-header">
+            <h2><img src="icon_material.png" alt="素材" class="res-title-icon-lg"> 素材</h2>
+          </div>
+          <div class="life-display-container">
+            <button class="btn-count minus" onclick="adjustResource('p1', 'mat', -1)">-1</button>
+            <div class="life-value-wrapper">
+              <span id="p1-mat-val-lg" class="life-value">0</span>
+            </div>
+            <button class="btn-count plus" onclick="adjustResource('p1', 'mat', 1)">+1</button>
+          </div>
+          <div class="quick-adjust res-focus-adjust">
+            <button class="btn-sub primary" onclick="adjustResource('p1', 'mat', 2)">+2</button>
+            <button class="btn-sub primary" onclick="adjustResource('p1', 'mat', 3)">+3</button>
           </div>
         </div>
       </section>
@@ -103,7 +149,7 @@
       </section>
     </main>
 
-    <!-- 2人対戦表示モード (対向表示対応) -->
+    <!-- 2人対戦表示モード (対向表示対応 ＆ 1P同等特大表示) -->
     <main id="two-player-view" class="view-container">
       <!-- Player 2 (相手・反転表示可能) -->
       <div class="player-panel p2-panel">
@@ -112,26 +158,50 @@
           <button class="btn-tiny" id="p2-flip-btn">🔄 180°回転</button>
         </div>
         <div class="panel-content" id="p2-content">
-          <div class="p2-main-display single-box">
-            <!-- P2 ライフ -->
-            <div class="mini-card p2-life-box">
-              <span class="mini-title">❤️ ライフ</span>
-              <div class="mini-counter">
-                <button class="btn-count sm minus" onclick="adjustLife('p2', -1)">-</button>
-                <span id="p2-life-val" class="mini-val">10</span>
-                <button class="btn-count sm plus" onclick="adjustLife('p2', 1)">+</button>
-              </div>
+          <!-- P2 ライフ -->
+          <div class="card mini-card p2-life-box">
+            <span class="mini-title">❤️ ライフ</span>
+            <div class="mini-counter">
+              <button class="btn-count sm minus" onclick="adjustLife('p2', -1)">-</button>
+              <span id="p2-life-val" class="mini-val">10</span>
+              <button class="btn-count sm plus" onclick="adjustLife('p2', 1)">+</button>
+            </div>
+            <div class="quick-adjust p2-quick">
+              <button class="btn-sub danger" onclick="adjustLife('p2', -1)">-1</button>
+              <button class="btn-sub danger" onclick="adjustLife('p2', -2)">-2</button>
+              <button class="btn-sub danger" onclick="adjustLife('p2', -3)">-3</button>
+              <button class="btn-sub danger" onclick="adjustLife('p2', -4)">-4</button>
             </div>
           </div>
-          <!-- P2 素材・食材 -->
-          <div class="p2-sub-display">
-            <div class="mini-sub-item"><img src="icon_food.png" class="mini-res-icon"> 食材: <span id="p2-food-val">0</span> 
-              <button class="btn-micro" onclick="adjustResource('p2', 'food', -1)">-</button>
-              <button class="btn-micro" onclick="adjustResource('p2', 'food', 1)">+</button>
+          <!-- P2 素材・食材 (1P同等 2列特大表示) -->
+          <div class="resources-grid p2-res-grid">
+            <div class="card resource-card food-theme">
+              <div class="card-header">
+                <h3><img src="icon_food.png" alt="食材" class="res-title-icon"> 食材</h3>
+              </div>
+              <div class="resource-counter">
+                <button class="btn-count sm minus" onclick="adjustResource('p2', 'food', -1)">-</button>
+                <span id="p2-food-val" class="resource-value">0</span>
+                <button class="btn-count sm plus" onclick="adjustResource('p2', 'food', 1)">+</button>
+              </div>
+              <div class="resource-quick">
+                <button class="btn-tiny" onclick="adjustResource('p2', 'food', 2)">+2</button>
+                <button class="btn-tiny" onclick="adjustResource('p2', 'food', 3)">+3</button>
+              </div>
             </div>
-            <div class="mini-sub-item"><img src="icon_material.png" class="mini-res-icon"> 素材: <span id="p2-mat-val">0</span>
-              <button class="btn-micro" onclick="adjustResource('p2', 'mat', -1)">-</button>
-              <button class="btn-micro" onclick="adjustResource('p2', 'mat', 1)">+</button>
+            <div class="card resource-card material-theme">
+              <div class="card-header">
+                <h3><img src="icon_material.png" alt="素材" class="res-title-icon"> 素材</h3>
+              </div>
+              <div class="resource-counter">
+                <button class="btn-count sm minus" onclick="adjustResource('p2', 'mat', -1)">-</button>
+                <span id="p2-mat-val" class="resource-value">0</span>
+                <button class="btn-count sm plus" onclick="adjustResource('p2', 'mat', 1)">+</button>
+              </div>
+              <div class="resource-quick">
+                <button class="btn-tiny" onclick="adjustResource('p2', 'mat', 2)">+2</button>
+                <button class="btn-tiny" onclick="adjustResource('p2', 'mat', 3)">+3</button>
+              </div>
             </div>
           </div>
         </div>
@@ -147,26 +217,50 @@
           <span class="player-label">PLAYER 1 (自分)</span>
         </div>
         <div class="panel-content">
-          <div class="p2-main-display single-box">
-            <!-- P1 ライフ -->
-            <div class="mini-card p1-life-box">
-              <span class="mini-title">❤️ ライフ</span>
-              <div class="mini-counter">
-                <button class="btn-count sm minus" onclick="adjustLife('p1', -1)">-</button>
-                <span id="p1-life-val-2p" class="mini-val">10</span>
-                <button class="btn-count sm plus" onclick="adjustLife('p1', 1)">+</button>
-              </div>
+          <!-- P1 ライフ -->
+          <div class="card mini-card p1-life-box">
+            <span class="mini-title">❤️ ライフ</span>
+            <div class="mini-counter">
+              <button class="btn-count sm minus" onclick="adjustLife('p1', -1)">-</button>
+              <span id="p1-life-val-2p" class="mini-val">10</span>
+              <button class="btn-count sm plus" onclick="adjustLife('p1', 1)">+</button>
+            </div>
+            <div class="quick-adjust p1-quick">
+              <button class="btn-sub danger" onclick="adjustLife('p1', -1)">-1</button>
+              <button class="btn-sub danger" onclick="adjustLife('p1', -2)">-2</button>
+              <button class="btn-sub danger" onclick="adjustLife('p1', -3)">-3</button>
+              <button class="btn-sub danger" onclick="adjustLife('p1', -4)">-4</button>
             </div>
           </div>
-          <!-- P1 素材・食材 -->
-          <div class="p2-sub-display">
-            <div class="mini-sub-item"><img src="icon_food.png" class="mini-res-icon"> 食材: <span id="p1-food-val-2p">0</span> 
-              <button class="btn-micro" onclick="adjustResource('p1', 'food', -1)">-</button>
-              <button class="btn-micro" onclick="adjustResource('p1', 'food', 1)">+</button>
+          <!-- P1 素材・食材 (1P同等 2列特大表示) -->
+          <div class="resources-grid p1-res-grid">
+            <div class="card resource-card food-theme">
+              <div class="card-header">
+                <h3><img src="icon_food.png" alt="食材" class="res-title-icon"> 食材</h3>
+              </div>
+              <div class="resource-counter">
+                <button class="btn-count sm minus" onclick="adjustResource('p1', 'food', -1)">-</button>
+                <span id="p1-food-val-2p" class="resource-value">0</span>
+                <button class="btn-count sm plus" onclick="adjustResource('p1', 'food', 1)">+</button>
+              </div>
+              <div class="resource-quick">
+                <button class="btn-tiny" onclick="adjustResource('p1', 'food', 2)">+2</button>
+                <button class="btn-tiny" onclick="adjustResource('p1', 'food', 3)">+3</button>
+              </div>
             </div>
-            <div class="mini-sub-item"><img src="icon_material.png" class="mini-res-icon"> 素材: <span id="p1-mat-val-2p">0</span>
-              <button class="btn-micro" onclick="adjustResource('p1', 'mat', -1)">-</button>
-              <button class="btn-micro" onclick="adjustResource('p1', 'mat', 1)">+</button>
+            <div class="card resource-card material-theme">
+              <div class="card-header">
+                <h3><img src="icon_material.png" alt="素材" class="res-title-icon"> 素材</h3>
+              </div>
+              <div class="resource-counter">
+                <button class="btn-count sm minus" onclick="adjustResource('p1', 'mat', -1)">-</button>
+                <span id="p1-mat-val-2p" class="resource-value">0</span>
+                <button class="btn-count sm plus" onclick="adjustResource('p1', 'mat', 1)">+</button>
+              </div>
+              <div class="resource-quick">
+                <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 2)">+2</button>
+                <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 3)">+3</button>
+              </div>
             </div>
           </div>
         </div>
