@@ -377,11 +377,11 @@ button:active {
   align-items: center;
 }
 
-/* 素材・食材グリッド (100dvh完全収容) */
+/* 素材・食材グリッド (100dvh完全収容 ＆ 美しくバランスの取れたUI) */
 .resources-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4px;
+  gap: 8px;
   width: 100%;
   flex: 1;
   min-height: 0;
@@ -390,13 +390,90 @@ button:active {
 
 .resource-card {
   height: 100%;
-  padding: 3px 4px;
+  padding: 6px 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   text-align: center;
   box-sizing: border-box;
+}
+
+.resource-card .card-header h3 {
+  font-size: clamp(0.85rem, 1.8vh, 0.95rem);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.resource-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin: 1px 0;
+}
+
+/* 1P 食材・素材の - / + ボタンを丸ボタン化 ＆ 押しやすく洗練 */
+.resource-card .btn-count.sm {
+  width: clamp(34px, 5.2vh, 42px);
+  height: clamp(34px, 5.2vh, 42px);
+  border-radius: 50%;
+  font-size: clamp(1.2rem, 2.2vh, 1.5rem);
+  font-weight: 900;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.resource-card .resource-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2rem, 4.6vh, 2.5rem);
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.5);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+  width: clamp(52px, 15vw, 68px);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* +2, +3 のクイック追加ボタンをテーマカラーに合わせた美しいピル状に */
+.resource-quick {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1px;
+}
+
+.resource-card .btn-tiny {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: clamp(3px, 0.7vh, 5px) 0;
+  border-radius: 12px;
+  font-size: clamp(0.8rem, 1.6vh, 0.9rem);
+  font-weight: 800;
+  flex: 1;
+  text-align: center;
+  transition: all 0.12s ease;
+}
+
+.food-theme .btn-tiny {
+  background: rgba(46, 213, 115, 0.15);
+  border-color: rgba(46, 213, 115, 0.4);
+  color: #55efc4;
+}
+
+.material-theme .btn-tiny {
+  background: rgba(255, 127, 80, 0.15);
+  border-color: rgba(255, 127, 80, 0.4);
+  color: #ffaa80;
 }
 
 .resource-focus-card {
