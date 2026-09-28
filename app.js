@@ -221,14 +221,17 @@ function render() {
   const singleView = document.getElementById('single-player-view');
   const twoView = document.getElementById('two-player-view');
   const modeText = document.getElementById('mode-text');
+  const appContainer = document.getElementById('app');
 
   if (state.mode === 'single') {
     singleView.classList.add('active');
     twoView.classList.remove('active');
+    if (appContainer) appContainer.classList.remove('mode-2p');
     modeText.textContent = '2P対戦';
   } else {
     singleView.classList.remove('active');
     twoView.classList.add('active');
+    if (appContainer) appContainer.classList.add('mode-2p');
     modeText.textContent = '1P表示';
   }
 
