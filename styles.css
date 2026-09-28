@@ -417,63 +417,61 @@ button:active {
   margin: 1px 0;
 }
 
-/* 1P 食材・素材の - / + ボタンを丸ボタン化 ＆ 押しやすく洗練 */
+/* 1P 食材・素材の - / + ボタン (スクショ通りの角丸ボタンデザイン) */
 .resource-card .btn-count.sm {
-  width: clamp(34px, 5.2vh, 42px);
-  height: clamp(34px, 5.2vh, 42px);
-  border-radius: 50%;
-  font-size: clamp(1.2rem, 2.2vh, 1.5rem);
+  width: clamp(38px, 5.8vh, 46px);
+  height: clamp(38px, 5.8vh, 46px);
+  border-radius: 14px;
+  font-size: clamp(1.3rem, 2.4vh, 1.6rem);
   font-weight: 900;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   flex-shrink: 0;
+}
+
+.resource-card .btn-count.sm.minus {
+  background: var(--danger-gradient);
+  color: white;
+}
+
+.resource-card .btn-count.sm.plus {
+  background: var(--primary-gradient);
+  color: white;
 }
 
 .resource-card .resource-value {
   font-family: 'Orbitron', sans-serif;
-  font-size: clamp(2rem, 4.6vh, 2.5rem);
+  font-size: clamp(2.2rem, 5vh, 2.8rem);
   font-weight: 900;
   color: #ffffff;
   text-shadow: 0 0 16px rgba(255, 255, 255, 0.5);
   line-height: 1;
   font-variant-numeric: tabular-nums;
   display: inline-block;
-  width: clamp(52px, 15vw, 68px);
+  width: clamp(58px, 16vw, 72px);
   text-align: center;
   flex-shrink: 0;
 }
 
-/* +2, +3 のクイック追加ボタンをテーマカラーに合わせた美しいピル状に */
+/* +2, +3 クイック追加ボタン (スクショ通り) */
 .resource-quick {
   display: flex;
   gap: 6px;
   justify-content: center;
   width: 100%;
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 .resource-card .btn-tiny {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
   color: var(--text-main);
   border: 1px solid var(--border-color);
-  padding: clamp(3px, 0.7vh, 5px) 0;
-  border-radius: 12px;
+  padding: clamp(3px, 0.8vh, 5px) 0;
+  border-radius: 8px;
   font-size: clamp(0.8rem, 1.6vh, 0.9rem);
   font-weight: 800;
   flex: 1;
   text-align: center;
-  transition: all 0.12s ease;
-}
-
-.food-theme .btn-tiny {
-  background: rgba(46, 213, 115, 0.15);
-  border-color: rgba(46, 213, 115, 0.4);
-  color: #55efc4;
-}
-
-.material-theme .btn-tiny {
-  background: rgba(255, 127, 80, 0.15);
-  border-color: rgba(255, 127, 80, 0.4);
-  color: #ffaa80;
 }
 
 .resource-focus-card {
