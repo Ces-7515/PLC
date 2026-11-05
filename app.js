@@ -6,6 +6,7 @@
 const defaultState = {
   mode: 'single', // 'single' | 'two'
   resTab: 'both', // 'both' | 'food' | 'mat'
+  isNight: false,
   p2Flipped: false,
   p1: {
     life: 10,
@@ -54,6 +55,22 @@ function playSound(type) {
       gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
       osc.start(now);
       osc.stop(now + 0.12);
+    } else if (type === 'night') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, now);
+      osc.frequency.exponentialRampToValueAtTime(392.00, now + 0.22);
+      gain.gain.setValueAtTime(0.22, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.24);
+      osc.start(now);
+      osc.stop(now + 0.24);
+    } else if (type === 'day') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(392.00, now);
+      osc.frequency.exponentialRampToValueAtTime(587.33, now + 0.18);
+      gain.gain.setValueAtTime(0.22, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+      osc.start(now);
+      osc.stop(now + 0.2);
     } else if (type === 'reset') {
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(523.25, now);
@@ -86,9 +103,25 @@ document.addEventListener('DOMContentLoaded', () => {
 // PWA Service Worker 登録
 function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
+    const isLocal =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname.startsWith('192.168.');
+    if (isLocal) {
+      navigator.serviceWorker.getRegistrations().then((regs) => {
+        regs.forEach((reg) => reg.unregister());
+      });
+      if ('caches' in window) {
+        caches.keys().then((keys) => keys.forEach((k) => caches.delete(k)));
+      }
+      return;
+    }
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
-        .then((reg) => console.log('SW registered:', reg))
+        .then((reg) => {
+          reg.update();
+          console.log('SW registered:', reg);
+        })
         .catch((err) => console.log('SW reg error:', err));
     });
   }
@@ -112,6 +145,19 @@ function loadState() {
 
 // イベントリスナー設定
 function setupEventListeners() {
+  // 夜モード切替
+  const nightBtn = document.getElementById('night-toggle-btn');
+  if (nightBtn) {
+    nightBtn.addEventListener('click', () => {
+      state.isNight = !state.isNight;
+      addLog(state.isNight ? '🌙 夜になりました' : '☀️ 通常の時間帯に戻りました');
+      playSound(state.isNight ? 'night' : 'day');
+      vibrate(30);
+      saveState();
+      render();
+    });
+  }
+
   // モード切替
   document.getElementById('mode-toggle-btn').addEventListener('click', () => {
     state.mode = state.mode === 'single' ? 'two' : 'single';
@@ -125,6 +171,7 @@ function setupEventListeners() {
     if (confirm('すべてのカウントをリセットしますか？')) {
       state.p1 = { life: 10, food: 0, mat: 0 };
       state.p2 = { life: 10, food: 0, mat: 0 };
+      state.isNight = false;
       addLog('全カウントを初期化しました');
       playSound('reset');
       vibrate(50);
@@ -143,12 +190,15 @@ function setupEventListeners() {
   document.getElementById('p1-mat-minus').addEventListener('click', () => adjustResource('p1', 'mat', -1));
   document.getElementById('p1-mat-plus').addEventListener('click', () => adjustResource('p1', 'mat', 1));
 
-  // ログ削除
-  document.getElementById('clear-log-btn').addEventListener('click', () => {
-    state.logs = [];
-    saveState();
-    renderLogs();
-  });
+  // ログ削除 (要素がある場合のみ)
+  const clearLogBtn = document.getElementById('clear-log-btn');
+  if (clearLogBtn) {
+    clearLogBtn.addEventListener('click', () => {
+      state.logs = [];
+      saveState();
+      renderLogs();
+    });
+  }
 
   // P2 180°回転
   document.getElementById('p2-flip-btn').addEventListener('click', () => {
@@ -222,6 +272,24 @@ function render() {
   const twoView = document.getElementById('two-player-view');
   const modeText = document.getElementById('mode-text');
   const appContainer = document.getElementById('app');
+  const nightBtn = document.getElementById('night-toggle-btn');
+  const nightIcon = document.getElementById('night-icon');
+  const nightText = document.getElementById('night-text');
+
+  // 夜モード表示切替
+  if (state.isNight) {
+    document.body.classList.add('night-mode');
+    if (appContainer) appContainer.classList.add('night-mode');
+    if (nightBtn) nightBtn.classList.add('active');
+    if (nightIcon) nightIcon.textContent = '🌕';
+    if (nightText) nightText.textContent = '夜: ON';
+  } else {
+    document.body.classList.remove('night-mode');
+    if (appContainer) appContainer.classList.remove('night-mode');
+    if (nightBtn) nightBtn.classList.remove('active');
+    if (nightIcon) nightIcon.textContent = '🌙';
+    if (nightText) nightText.textContent = '夜';
+  }
 
   if (state.mode === 'single') {
     singleView.classList.add('active');

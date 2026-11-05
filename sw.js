@@ -1,4 +1,4 @@
-const CACHE_NAME = 'palworld-tcg-counter-v1';
+const CACHE_NAME = 'plc-counter-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -15,8 +15,12 @@ const ASSETS_TO_CACHE = [
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+    caches.open(CACHE_NAME).then(async (cache) => {
+      try {
+        await cache.addAll(ASSETS_TO_CACHE);
+      } catch (err) {
+        console.warn('Cache addAll warning:', err);
+      }
     })
   );
   self.skipWaiting();
@@ -37,10 +41,19 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
+// ネットワーク優先（最新ファイルを常に取得し、オフライン時のみキャッシュを使用）
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then((cachedResponse) => {
-      return cachedResponse || fetch(e.request);
-    })
+    fetch(e.request)
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200 && e.request.method === 'GET') {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(e.request, responseClone);
+          });
+        }
+        return networkResponse;
+      })
+      .catch(() => caches.match(e.request))
   );
 });

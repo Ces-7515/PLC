@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>PLC</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=11">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#141923">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,12 +17,21 @@
 </head>
 <body>
   <div id="app" class="app-container theme-dark">
+    <!-- 夜モード背景エフェクト -->
+    <div class="night-sky-bg" aria-hidden="true">
+      <div class="night-stars"></div>
+      <div class="night-glow"></div>
+    </div>
+
     <!-- ヘッダー -->
     <header class="app-header">
       <div class="logo">
         <img src="logo.png" alt="PALWORLD OFFICIAL CARD GAME" class="app-logo-img">
       </div>
       <div class="header-controls">
+        <button id="night-toggle-btn" class="btn-icon night-btn" title="夜モード切り替え">
+          <span class="icon" id="night-icon">🌙</span> <span id="night-text">夜</span>
+        </button>
         <button id="mode-toggle-btn" class="btn-icon" title="対戦モード切り替え">
           <span class="icon">⚔️</span> <span id="mode-text">2P対戦</span>
         </button>
@@ -76,8 +85,10 @@
               <button id="p1-food-plus" class="btn-count sm plus">+</button>
             </div>
             <div class="resource-quick">
+              <button class="btn-tiny danger" onclick="adjustResource('p1', 'food', -3)">-3</button>
               <button class="btn-tiny" onclick="adjustResource('p1', 'food', 2)">+2</button>
               <button class="btn-tiny" onclick="adjustResource('p1', 'food', 3)">+3</button>
+              <button class="btn-tiny" onclick="adjustResource('p1', 'food', 5)">+5</button>
             </div>
           </div>
 
@@ -92,6 +103,8 @@
               <button id="p1-mat-plus" class="btn-count sm plus">+</button>
             </div>
             <div class="resource-quick">
+              <button class="btn-tiny danger" onclick="adjustResource('p1', 'mat', -2)">-2</button>
+              <button class="btn-tiny danger" onclick="adjustResource('p1', 'mat', -5)">-5</button>
               <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 2)">+2</button>
               <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 3)">+3</button>
             </div>
@@ -111,8 +124,10 @@
             <button class="btn-count plus" onclick="adjustResource('p1', 'food', 1)">+1</button>
           </div>
           <div class="quick-adjust res-focus-adjust">
+            <button class="btn-sub danger" onclick="adjustResource('p1', 'food', -3)">-3</button>
             <button class="btn-sub primary" onclick="adjustResource('p1', 'food', 2)">+2</button>
             <button class="btn-sub primary" onclick="adjustResource('p1', 'food', 3)">+3</button>
+            <button class="btn-sub primary" onclick="adjustResource('p1', 'food', 5)">+5</button>
           </div>
         </div>
 
@@ -129,21 +144,12 @@
             <button class="btn-count plus" onclick="adjustResource('p1', 'mat', 1)">+1</button>
           </div>
           <div class="quick-adjust res-focus-adjust">
+            <button class="btn-sub danger" onclick="adjustResource('p1', 'mat', -2)">-2</button>
+            <button class="btn-sub danger" onclick="adjustResource('p1', 'mat', -5)">-5</button>
             <button class="btn-sub primary" onclick="adjustResource('p1', 'mat', 2)">+2</button>
             <button class="btn-sub primary" onclick="adjustResource('p1', 'mat', 3)">+3</button>
           </div>
         </div>
-      </section>
-
-      <!-- 対戦ログ/メモ -->
-      <section class="card log-card">
-        <div class="card-header">
-          <h3><span class="icon">📜</span> ログ</h3>
-          <button id="clear-log-btn" class="btn-tiny">消去</button>
-        </div>
-        <ul id="action-log" class="log-list">
-          <li class="log-item default">対戦が開始されました</li>
-        </ul>
       </section>
     </main>
 
@@ -182,8 +188,10 @@
                 <button class="btn-count sm plus" onclick="adjustResource('p2', 'food', 1)">+</button>
               </div>
               <div class="resource-quick">
+                <button class="btn-tiny danger" onclick="adjustResource('p2', 'food', -3)">-3</button>
                 <button class="btn-tiny" onclick="adjustResource('p2', 'food', 2)">+2</button>
                 <button class="btn-tiny" onclick="adjustResource('p2', 'food', 3)">+3</button>
+                <button class="btn-tiny" onclick="adjustResource('p2', 'food', 5)">+5</button>
               </div>
             </div>
             <div class="card resource-card material-theme">
@@ -196,6 +204,8 @@
                 <button class="btn-count sm plus" onclick="adjustResource('p2', 'mat', 1)">+</button>
               </div>
               <div class="resource-quick">
+                <button class="btn-tiny danger" onclick="adjustResource('p2', 'mat', -2)">-2</button>
+                <button class="btn-tiny danger" onclick="adjustResource('p2', 'mat', -5)">-5</button>
                 <button class="btn-tiny" onclick="adjustResource('p2', 'mat', 2)">+2</button>
                 <button class="btn-tiny" onclick="adjustResource('p2', 'mat', 3)">+3</button>
               </div>
@@ -240,8 +250,10 @@
                 <button class="btn-count sm plus" onclick="adjustResource('p1', 'food', 1)">+</button>
               </div>
               <div class="resource-quick">
+                <button class="btn-tiny danger" onclick="adjustResource('p1', 'food', -3)">-3</button>
                 <button class="btn-tiny" onclick="adjustResource('p1', 'food', 2)">+2</button>
                 <button class="btn-tiny" onclick="adjustResource('p1', 'food', 3)">+3</button>
+                <button class="btn-tiny" onclick="adjustResource('p1', 'food', 5)">+5</button>
               </div>
             </div>
             <div class="card resource-card material-theme">
@@ -254,6 +266,8 @@
                 <button class="btn-count sm plus" onclick="adjustResource('p1', 'mat', 1)">+</button>
               </div>
               <div class="resource-quick">
+                <button class="btn-tiny danger" onclick="adjustResource('p1', 'mat', -2)">-2</button>
+                <button class="btn-tiny danger" onclick="adjustResource('p1', 'mat', -5)">-5</button>
                 <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 2)">+2</button>
                 <button class="btn-tiny" onclick="adjustResource('p1', 'mat', 3)">+3</button>
               </div>
@@ -269,6 +283,6 @@
     </footer>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=8"></script>
 </body>
 </html>

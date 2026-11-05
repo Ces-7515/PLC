@@ -73,8 +73,8 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1px;
-  padding: 2px 4px;
+  gap: 3px;
+  padding: 4px 6px 6px;
   background-color: rgba(20, 25, 35, 0.95);
   border-bottom: 1px solid var(--border-color);
   backdrop-filter: blur(10px);
@@ -96,19 +96,23 @@ html, body {
 }
 
 .app-logo-img {
-  height: clamp(46px, 8.5vh, 68px);
+  height: clamp(68px, 12.5vh, 100px);
   width: auto;
   max-width: 98%;
   object-fit: contain;
-  filter: drop-shadow(0 3px 10px rgba(0, 210, 255, 0.7));
+  filter: drop-shadow(0 3px 12px rgba(0, 210, 255, 0.75));
 }
 
 .header-controls {
-  display: flex;
-  justify-content: center;
-  gap: 4px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
   width: 100%;
-  margin-top: 1px;
+  max-width: 420px;
+  margin: 2px auto 0;
+  padding: 2px 6px;
+  align-items: center;
+  justify-items: stretch;
 }
 
 /* ボタン共通 */
@@ -128,20 +132,25 @@ button:active {
 .btn-icon {
   background: var(--card-bg);
   color: var(--text-main);
-  border: 1px solid var(--border-color);
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  font-size: clamp(0.65rem, 1.4vh, 0.75rem);
-  font-weight: 700;
+  border: 2px solid var(--border-color);
+  height: clamp(36px, 5.2vh, 46px);
+  padding: 0 8px;
+  border-radius: 12px;
+  font-size: clamp(0.92rem, 2.0vh, 1.1rem);
+  font-weight: 900;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 5px;
+  width: 100%;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .btn-icon.danger {
-  border-color: rgba(255, 71, 87, 0.4);
+  border-color: rgba(255, 71, 87, 0.55);
   color: #ff6b81;
+  background: rgba(255, 71, 87, 0.12);
 }
 
 /* メインコンテナ 中央揃え＆100dvhフィット */
@@ -332,10 +341,14 @@ button:active {
   background: rgba(255, 255, 255, 0.12);
   color: var(--text-main);
   border: 1px solid var(--border-color);
-  padding: clamp(4px, 1vh, 7px) 0;
+  height: clamp(42px, 6vh, 52px);
+  padding: 0;
   border-radius: var(--radius-sm);
-  font-size: clamp(0.95rem, 1.8vh, 1.15rem);
-  font-weight: 800;
+  font-size: clamp(1.0rem, 2.0vh, 1.2rem);
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
@@ -348,13 +361,13 @@ button:active {
 /* 素材・食材セクション ＆ タブ表示切替 (大きな枠＆特大文字) */
 .resources-section {
   width: 100%;
-  flex: 1.5;
+  flex: 1.4;
   min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 3px;
+  gap: 4px;
   text-align: center;
 }
 
@@ -396,9 +409,16 @@ button:active {
   width: 100%;
 }
 
-.res-view-mode.active {
+.resources-grid.res-view-mode.active {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
+.resource-focus-card.res-view-mode.active {
   display: flex !important;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -415,10 +435,10 @@ button:active {
 
 .resource-card {
   height: 100%;
-  padding: 8px 10px;
+  padding: 4px 6px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   text-align: center;
   box-sizing: border-box;
@@ -446,20 +466,20 @@ button:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
   margin: 2px 0;
 }
 
-/* 1P 食材・素材の - / + ボタン (特大・超押しやすい角丸ボタン) */
+/* 1P 食材・素材の - / + ボタン (上のライフの -1 / +1 ボタンと完全に同じ高さ) */
 .resource-card .btn-count.sm {
-  width: clamp(44px, 6.5vh, 54px);
-  height: clamp(44px, 6.5vh, 54px);
-  border-radius: 14px;
-  font-size: clamp(1.5rem, 2.8vh, 1.9rem);
+  width: clamp(54px, 8.2vh, 66px);
+  height: clamp(72px, 10.5vh, 88px);
+  border-radius: 18px;
+  font-size: clamp(2.4rem, 4.2vh, 3.0rem);
   font-weight: 900;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.55);
   flex-shrink: 0;
 }
 
@@ -475,45 +495,57 @@ button:active {
 
 .resource-card .resource-value {
   font-family: 'Orbitron', sans-serif;
-  font-size: clamp(2.5rem, 5.5vh, 3.2rem);
+  font-size: clamp(3.2rem, 7.5vh, 4.4rem);
   font-weight: 900;
   color: #ffffff;
   text-shadow: 0 0 18px rgba(255, 255, 255, 0.6);
   line-height: 1;
   font-variant-numeric: tabular-nums;
   display: inline-block;
-  width: clamp(65px, 18vw, 82px);
+  width: clamp(54px, 14vw, 72px);
   text-align: center;
   flex-shrink: 0;
 }
 
-/* +2, +3 クイック追加ボタン (特大・クッキリ) */
+/* クイック追加・減少ボタン (上のライフのクイックボタンと完全に同じ高さ) */
 .resource-quick {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
   width: 100%;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .resource-card .btn-tiny {
   background: rgba(255, 255, 255, 0.15);
   color: var(--text-main);
   border: 1px solid var(--border-color);
-  padding: clamp(5px, 1vh, 7px) 0;
-  border-radius: 8px;
-  font-size: clamp(0.9rem, 1.8vh, 1.05rem);
-  font-weight: 800;
-  flex: 1;
+  height: clamp(42px, 6vh, 52px);
+  padding: 0;
+  border-radius: var(--radius-sm);
+  font-size: clamp(1.0rem, 2.0vh, 1.2rem);
+  font-weight: 900;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
-/* 単発表示（特大フォーカス表示）の食材・素材カード */
+.btn-tiny.danger,
+.resource-card .btn-tiny.danger {
+  background: rgba(255, 71, 87, 0.22);
+  color: #ff6b81;
+  border-color: rgba(255, 71, 87, 0.5);
+}
+
+/* 単発表示（特大フォーカス表示）の食材・素材カード（上のライフカードと完全に同じ配置・高さ） */
 .resource-focus-card {
   width: 100%;
   flex: 1;
   min-height: 0;
-  padding: 12px 12px;
+  height: 100%;
+  padding: 4px 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -528,16 +560,16 @@ button:active {
   align-items: center;
   width: 100%;
   text-align: center;
-  margin-bottom: 2px;
+  margin-bottom: 0;
 }
 
 .resource-focus-card .card-header h2 {
-  font-size: clamp(1.5rem, 3.5vh, 1.85rem);
+  font-size: clamp(1.3rem, 3.0vh, 1.65rem);
   font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   text-align: center;
   letter-spacing: 1px;
 }
@@ -546,9 +578,13 @@ button:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: clamp(10px, 3vw, 18px);
+  gap: clamp(14px, 4vw, 28px);
   width: 100%;
   margin: 2px 0;
+}
+
+.resource-focus-card .life-value-wrapper {
+  width: clamp(100px, 24vw, 130px);
 }
 
 .resource-focus-card .life-value {
@@ -562,33 +598,36 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(110px, 28vw, 140px);
+  width: 100%;
   text-align: center;
 }
 
 .res-title-icon-lg {
-  width: clamp(32px, 4.5vh, 40px);
-  height: clamp(32px, 4.5vh, 40px);
+  width: clamp(28px, 4vh, 36px);
+  height: clamp(28px, 4vh, 36px);
   object-fit: contain;
   vertical-align: middle;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
 }
 
 .res-focus-adjust {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
   width: 100%;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .res-focus-adjust .btn-sub {
-  flex: 1;
-  max-width: 130px;
-  padding: clamp(6px, 1.2vh, 9px) 0;
-  font-size: clamp(1rem, 2vh, 1.15rem);
-  font-weight: 800;
+  width: 100%;
+  max-width: none;
+  height: clamp(42px, 6vh, 52px);
+  padding: 0;
+  font-size: clamp(1.0rem, 2.0vh, 1.2rem);
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
@@ -612,45 +651,6 @@ button:active {
   box-shadow: 0 0 12px rgba(255, 127, 80, 0.3) !important;
 }
 
-.res-title-icon {
-  width: clamp(16px, 2vh, 18px);
-  height: clamp(16px, 2vh, 18px);
-  object-fit: contain;
-  vertical-align: middle;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
-}
-
-.resource-counter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2px;
-  width: 100%;
-  margin: 0;
-}
-
-.resource-value {
-  font-family: 'Orbitron', sans-serif;
-  font-size: clamp(1.6rem, 3.5vh, 2.0rem);
-  font-weight: 900;
-  color: #ffffff;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.45);
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  display: inline-block;
-  width: clamp(48px, 14vw, 60px);
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.resource-quick {
-  display: flex;
-  gap: 2px;
-  justify-content: center;
-  width: 100%;
-  margin-top: 0;
-}
-
 .btn-tiny {
   background: rgba(255, 255, 255, 0.15);
   color: var(--text-main);
@@ -659,7 +659,6 @@ button:active {
   border-radius: 5px;
   font-size: clamp(0.7rem, 1.3vh, 0.8rem);
   font-weight: 800;
-  flex: 1;
   text-align: center;
 }
 
@@ -827,8 +826,9 @@ button:active {
 }
 
 .p2-quick .btn-sub, .p1-quick .btn-sub {
-  padding: 3px 0;
-  font-size: clamp(0.75rem, 1.6vh, 0.85rem);
+  height: clamp(28px, 4.2vh, 34px);
+  padding: 0;
+  font-size: clamp(0.8rem, 1.6vh, 0.9rem);
 }
 
 /* 2P用 素材・食材グリッドコンパクト配置 */
@@ -858,20 +858,21 @@ button:active {
 }
 
 .p2-res-grid .btn-count.sm, .p1-res-grid .btn-count.sm {
-  width: clamp(36px, 5.2vh, 44px);
-  height: clamp(36px, 5.2vh, 44px);
+  width: clamp(36px, 5.5vh, 44px);
+  height: clamp(36px, 5.5vh, 44px);
   font-size: clamp(1.3rem, 2.5vh, 1.6rem);
   border-radius: 10px;
 }
 
 .p2-res-grid .resource-value, .p1-res-grid .resource-value {
-  font-size: clamp(1.6rem, 3.5vh, 2.0rem);
-  width: clamp(40px, 12vw, 50px);
+  font-size: clamp(1.8rem, 4vh, 2.3rem);
+  width: clamp(44px, 13vw, 56px);
 }
 
 .p2-res-grid .btn-tiny, .p1-res-grid .btn-tiny {
-  padding: 2px 3px;
-  font-size: 0.75rem;
+  height: clamp(28px, 4.2vh, 34px);
+  padding: 0;
+  font-size: clamp(0.8rem, 1.6vh, 0.9rem);
 }
 
 .vs-divider {
@@ -944,27 +945,29 @@ button:active {
 
 .app-container.mode-2p .p2-quick .btn-sub,
 .app-container.mode-2p .p1-quick .btn-sub {
-  padding: 3px 0;
+  height: clamp(28px, 4.2vh, 34px);
+  padding: 0;
   font-size: clamp(0.85rem, 1.8vh, 0.95rem);
 }
 
 .app-container.mode-2p .p2-res-grid .btn-count.sm,
 .app-container.mode-2p .p1-res-grid .btn-count.sm {
-  width: clamp(32px, 5vh, 40px);
-  height: clamp(32px, 5vh, 40px);
-  font-size: clamp(1.15rem, 2.2vh, 1.4rem);
+  width: clamp(38px, 6vh, 46px);
+  height: clamp(38px, 6vh, 46px);
+  font-size: clamp(1.3rem, 2.5vh, 1.6rem);
 }
 
 .app-container.mode-2p .p2-res-grid .resource-value,
 .app-container.mode-2p .p1-res-grid .resource-value {
-  font-size: clamp(1.8rem, 4vh, 2.3rem);
+  font-size: clamp(2.0rem, 4.4vh, 2.5rem);
   width: clamp(48px, 14vw, 58px);
 }
 
 .app-container.mode-2p .p2-res-grid .btn-tiny,
 .app-container.mode-2p .p1-res-grid .btn-tiny {
-  padding: 3px 4px;
-  font-size: clamp(0.8rem, 1.6vh, 0.9rem);
+  height: clamp(28px, 4.2vh, 34px);
+  padding: 0;
+  font-size: clamp(0.85rem, 1.8vh, 0.95rem);
 }
 
 .app-footer {
@@ -975,4 +978,383 @@ button:active {
   letter-spacing: 0.5px;
   text-align: center;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
+
+.app-header,
+.view-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   🌙 夜モード (Night Mode) テーマ・背景エフェクト
+   ========================================================= */
+.night-sky-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  overflow: hidden;
+}
+
+.app-container.night-mode .night-sky-bg {
+  opacity: 1;
+}
+
+.night-stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 15% 20%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 35% 12%, rgba(254, 202, 87, 0.85), transparent),
+    radial-gradient(2px 2px at 72% 18%, rgba(255, 255, 255, 0.95), transparent),
+    radial-gradient(2.5px 2.5px at 88% 28%, rgba(254, 202, 87, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 22% 48%, rgba(214, 204, 255, 0.8), transparent),
+    radial-gradient(2px 2px at 64% 42%, rgba(255, 255, 255, 0.85), transparent),
+    radial-gradient(1.5px 1.5px at 82% 62%, rgba(214, 204, 255, 0.9), transparent),
+    radial-gradient(2px 2px at 12% 75%, rgba(254, 202, 87, 0.8), transparent),
+    radial-gradient(1.5px 1.5px at 48% 82%, rgba(255, 255, 255, 0.85), transparent),
+    radial-gradient(2px 2px at 90% 88%, rgba(255, 255, 255, 0.9), transparent);
+  animation: nightTwinkle 3.2s infinite ease-in-out alternate;
+}
+
+.night-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(254, 202, 87, 0.22) 0%, rgba(156, 136, 255, 0.12) 28%, transparent 55%),
+    radial-gradient(circle at 20% 85%, rgba(142, 68, 173, 0.28) 0%, transparent 60%);
+}
+
+@keyframes nightTwinkle {
+  0% { opacity: 0.55; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.02); }
+}
+
+body.night-mode {
+  background-color: #050214;
+}
+
+.app-container.night-mode {
+  background: linear-gradient(165deg, #07041d 0%, #17083c 48%, #2c1065 100%);
+  border-color: #7d5fff;
+  box-shadow: 0 0 36px rgba(125, 95, 255, 0.5);
+}
+
+.app-container.night-mode .app-header {
+  background-color: rgba(15, 7, 38, 0.88);
+  border-bottom-color: rgba(156, 136, 255, 0.4);
+}
+
+.app-container.night-mode .app-logo-img {
+  filter: drop-shadow(0 3px 12px rgba(162, 155, 254, 0.85)) drop-shadow(0 0 6px rgba(254, 202, 87, 0.4));
+}
+
+.btn-icon.night-btn {
+  background: rgba(44, 26, 84, 0.75);
+  border-color: rgba(162, 155, 254, 0.55);
+  color: #e2dbff;
+}
+
+.btn-icon.night-btn.active {
+  background: linear-gradient(135deg, #5f27cd 0%, #341f97 100%);
+  border-color: #feca57;
+  color: #ffeaa7;
+  box-shadow: 0 0 12px rgba(254, 202, 87, 0.65);
+}
+
+.app-container.night-mode .life-card,
+.app-container.night-mode .player-panel {
+  background: linear-gradient(180deg, rgba(40, 17, 88, 0.86) 0%, rgba(18, 7, 45, 0.92) 100%);
+  border: 2px solid rgba(162, 155, 254, 0.75) !important;
+  box-shadow: 0 0 22px rgba(156, 136, 255, 0.4) !important;
+}
+
+.app-container.night-mode .resource-card,
+.app-container.night-mode .resource-focus-card {
+  background: linear-gradient(180deg, rgba(35, 15, 76, 0.86) 0%, rgba(16, 7, 40, 0.92) 100%);
+}
+
+.app-container.night-mode .life-value:not(.low),
+.app-container.night-mode .mini-val {
+  text-shadow: 0 0 24px rgba(162, 155, 254, 0.95), 0 0 10px rgba(254, 202, 87, 0.5);
+}
+
+.app-container.night-mode .life-unit {
+  color: #feca57;
+}
+
+.app-container.night-mode .res-tab-btn.active {
+  background: rgba(156, 136, 255, 0.28);
+  border-color: #feca57;
+  color: #ffeaa7;
+  box-shadow: 0 0 10px rgba(254, 202, 87, 0.35);
+}
+
+.app-container.night-mode .log-card {
+  background-color: rgba(20, 9, 46, 0.8);
+  border-color: rgba(156, 136, 255, 0.35);
+}
+
+.app-container.night-mode .vs-divider span {
+  background: #17083c;
+  color: #feca57;
+}
+
+.app-container.night-mode .app-footer {
+  border-top-color: rgba(156, 136, 255, 0.3);
+  color: #b2a4d4;
+}
+
+/* =========================================================
+   📱 スマホ横画面 (Landscape) 専用レスポンシブUI
+   ========================================================= */
+@media (orientation: landscape) and (max-height: 920px) {
+  .app-container {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    border-radius: 0 !important;
+  }
+
+  /* ヘッダーを横1列のスリムバーに配置 */
+  .app-header,
+  .app-container.mode-2p .app-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 14px;
+    gap: 8px;
+  }
+
+  .logo {
+    width: auto;
+    justify-content: flex-start;
+  }
+
+  .app-logo-img,
+  .app-container.mode-2p .app-logo-img {
+    height: clamp(34px, 10.5dvh, 48px) !important;
+    max-width: 280px;
+  }
+
+  .header-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 115px);
+    width: auto;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .btn-icon {
+    height: clamp(32px, 9dvh, 40px);
+    padding: 0 10px;
+    font-size: clamp(0.85rem, 3.5dvh, 1.0rem);
+    width: 100%;
+  }
+
+  /* 横画面ではフッターとログを省スペース非表示にしてメイン操作枠を最大化 */
+  .app-footer,
+  .log-card {
+    display: none !important;
+  }
+
+  /* 1P表示モード：左にライフ、右に食材＆素材の2カラム横並び（カード高さ・内部ボタン位置を完全一致） */
+  #single-player-view.active {
+    display: grid !important;
+    grid-template-columns: 1fr 1.35fr;
+    grid-template-rows: auto 1fr;
+    gap: 4px 10px;
+    padding: 6px 12px 10px;
+    align-items: stretch;
+  }
+
+  #single-player-view .resources-section {
+    display: contents !important;
+  }
+
+  #single-player-view .res-tab-bar {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  #single-player-view .res-tab-btn {
+    padding: 2px 10px;
+    font-size: clamp(0.75rem, 2.8dvh, 0.9rem);
+  }
+
+  #single-player-view .life-card {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    height: 100%;
+    flex: none;
+    padding: 10px 10px 16px;
+    justify-content: space-evenly;
+  }
+
+  #single-player-view .res-view-mode.active {
+    grid-column: 2;
+    grid-row: 2;
+    min-height: 0;
+    height: 100%;
+  }
+
+  #single-player-view .resource-card,
+  #single-player-view .resource-focus-card,
+  #single-player-view .resource-focus-card.res-view-mode.active {
+    height: 100%;
+    padding: 4px 10px 18px;
+    justify-content: space-evenly;
+  }
+
+  #single-player-view .life-card .card-header {
+    margin: 0;
+  }
+
+  #single-player-view .resource-card .card-header,
+  #single-player-view .resource-focus-card .card-header {
+    margin: -4px 0 0;
+  }
+
+  #single-player-view .life-card .card-header h2,
+  #single-player-view .resource-card .card-header h3,
+  #single-player-view .resource-focus-card .card-header h2 {
+    font-size: clamp(1.05rem, 4.5dvh, 1.4rem);
+  }
+
+  #single-player-view .res-title-icon,
+  #single-player-view .res-title-icon-lg {
+    width: clamp(20px, 5dvh, 28px);
+    height: clamp(20px, 5dvh, 28px);
+  }
+
+  #single-player-view .life-display-container {
+    gap: clamp(6px, 1.5vw, 14px);
+    margin: 0;
+  }
+
+  /* 右側（食材・素材）の - / + カウンターを少し上に引き上げて左のライフと高さを揃える */
+  #single-player-view .resource-focus-card .life-display-container,
+  #single-player-view .resource-counter {
+    gap: clamp(6px, 1.5vw, 14px);
+    margin: -12px 0 0;
+  }
+
+  #single-player-view .life-value-wrapper,
+  #single-player-view .resource-focus-card .life-value-wrapper {
+    width: clamp(80px, 13vw, 115px);
+  }
+
+  /* ライフと食材・素材のメイン数字・ボタン高さを横一列に揃える */
+  #single-player-view .life-value,
+  #single-player-view .resource-card .resource-value,
+  #single-player-view .resource-focus-card .life-value {
+    font-size: clamp(2.4rem, 13dvh, 3.8rem);
+  }
+
+  #single-player-view .resource-card .resource-value {
+    width: clamp(50px, 8vw, 74px);
+  }
+
+  #single-player-view .btn-count,
+  #single-player-view .resource-card .btn-count.sm {
+    width: clamp(46px, 13.5dvh, 62px);
+    height: clamp(50px, 15dvh, 66px);
+    font-size: clamp(1.5rem, 5.2dvh, 2.1rem);
+  }
+
+  /* 下段クイックボタンも一番下に張り付かず少し上に上げてライフと高さを揃える */
+  #single-player-view .quick-adjust,
+  #single-player-view .resource-quick,
+  #single-player-view .res-focus-adjust {
+    margin-bottom: 4px;
+  }
+
+  #single-player-view .btn-sub,
+  #single-player-view .res-focus-adjust .btn-sub,
+  #single-player-view .resource-card .btn-tiny {
+    height: clamp(34px, 10dvh, 42px);
+    padding: 0;
+    font-size: clamp(0.85rem, 3.4dvh, 1.05rem);
+  }
+
+  /* 2P対戦モード：左右にPlayer 2とPlayer 1を並べる横画面対向/並列レイアウト */
+  #two-player-view.active,
+  .app-container.mode-2p #two-player-view.active {
+    flex-direction: row !important;
+    align-items: stretch;
+    gap: 6px;
+    padding: 6px 10px;
+  }
+
+  .app-container.mode-2p .player-panel {
+    flex: 1;
+    height: 100%;
+    padding: 5px 8px;
+    gap: 4px;
+  }
+
+  .vs-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    margin: 0 2px;
+  }
+
+  .vs-divider::before {
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+  }
+
+  .vs-divider span {
+    padding: 6px 4px;
+    font-size: 0.8rem;
+  }
+
+  .app-container.mode-2p .mini-card {
+    flex: 1;
+    padding: 3px 6px;
+    justify-content: space-evenly;
+  }
+
+  .app-container.mode-2p .mini-counter .btn-count.sm,
+  .app-container.mode-2p .p2-res-grid .btn-count.sm,
+  .app-container.mode-2p .p1-res-grid .btn-count.sm {
+    width: clamp(34px, 9.5dvh, 42px);
+    height: clamp(34px, 9.5dvh, 42px);
+    font-size: clamp(1.15rem, 4dvh, 1.45rem);
+  }
+
+  .app-container.mode-2p .mini-val,
+  .app-container.mode-2p .p2-res-grid .resource-value,
+  .app-container.mode-2p .p1-res-grid .resource-value {
+    font-size: clamp(1.6rem, 8dvh, 2.2rem);
+    width: clamp(42px, 7vw, 60px);
+  }
+
+  .app-container.mode-2p .p2-res-grid,
+  .app-container.mode-2p .p1-res-grid {
+    flex: 1.1 !important;
+  }
+
+  .app-container.mode-2p .p2-quick .btn-sub,
+  .app-container.mode-2p .p1-quick .btn-sub,
+  .app-container.mode-2p .p2-res-grid .btn-tiny,
+  .app-container.mode-2p .p1-res-grid .btn-tiny {
+    height: clamp(26px, 7.5dvh, 34px);
+    padding: 0;
+    font-size: clamp(0.75rem, 2.8dvh, 0.9rem);
+  }
+}
+

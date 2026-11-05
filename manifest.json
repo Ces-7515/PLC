@@ -1,10 +1,11 @@
 {
-  "name": "PLC",
+  "name": "PLC Counter",
   "short_name": "PLC",
+  "id": "plc-counter-v2",
   "description": "PLC - Palworld Life & Resource Counter",
-  "start_url": "./index.html",
+  "start_url": "./index.html?v=3",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#0c1017",
   "theme_color": "#141923",
   "icons": [
