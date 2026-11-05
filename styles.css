@@ -96,7 +96,7 @@ html, body {
 }
 
 .app-logo-img {
-  height: clamp(68px, 12.5vh, 100px);
+  height: clamp(56px, 12.5vh, 100px);
   width: auto;
   max-width: 98%;
   object-fit: contain;
@@ -299,8 +299,8 @@ button:active {
 
 /* カウントボタン (+ / -) 中央寄せ ＆ さらに特大丸ボタン */
 .btn-count {
-  width: clamp(72px, 10.5vh, 88px);
-  height: clamp(72px, 10.5vh, 88px);
+  width: clamp(56px, 10.5vh, 88px);
+  height: clamp(56px, 10.5vh, 88px);
   border-radius: 50%;
   font-size: clamp(2.4rem, 4.2vh, 3.0rem);
   font-weight: 900;
@@ -341,7 +341,7 @@ button:active {
   background: rgba(255, 255, 255, 0.12);
   color: var(--text-main);
   border: 1px solid var(--border-color);
-  height: clamp(42px, 6vh, 52px);
+  height: clamp(36px, 6vh, 52px);
   padding: 0;
   border-radius: var(--radius-sm);
   font-size: clamp(1.0rem, 2.0vh, 1.2rem);
@@ -474,7 +474,7 @@ button:active {
 /* 1P 食材・素材の - / + ボタン (上のライフの -1 / +1 ボタンと完全に同じ高さ) */
 .resource-card .btn-count.sm {
   width: clamp(54px, 8.2vh, 66px);
-  height: clamp(72px, 10.5vh, 88px);
+  height: clamp(56px, 10.5vh, 88px);
   border-radius: 18px;
   font-size: clamp(2.4rem, 4.2vh, 3.0rem);
   font-weight: 900;
@@ -520,7 +520,7 @@ button:active {
   background: rgba(255, 255, 255, 0.15);
   color: var(--text-main);
   border: 1px solid var(--border-color);
-  height: clamp(42px, 6vh, 52px);
+  height: clamp(36px, 6vh, 52px);
   padding: 0;
   border-radius: var(--radius-sm);
   font-size: clamp(1.0rem, 2.0vh, 1.2rem);
@@ -621,7 +621,7 @@ button:active {
 .res-focus-adjust .btn-sub {
   width: 100%;
   max-width: none;
-  height: clamp(42px, 6vh, 52px);
+  height: clamp(36px, 6vh, 52px);
   padding: 0;
   font-size: clamp(1.0rem, 2.0vh, 1.2rem);
   font-weight: 900;
@@ -1358,3 +1358,28 @@ body.night-mode {
   }
 }
 
+/* =========================================================
+   縦画面(1P): 食材・素材の - / 数字 / + をカード幅に合わせて縮め、見切れを防ぐ
+   ========================================================= */
+@media (orientation: portrait) {
+  #single-player-view .resource-card {
+    container-type: inline-size;
+  }
+
+  #single-player-view .resource-counter {
+    gap: 4px;
+  }
+
+  #single-player-view .resource-card .btn-count.sm {
+    width: clamp(36px, 24cqw, 66px);
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  #single-player-view .resource-card .resource-value {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    font-size: min(clamp(2.2rem, 7.5vh, 4.4rem), 17cqw);
+  }
+}
